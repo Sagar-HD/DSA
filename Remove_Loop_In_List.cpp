@@ -85,8 +85,8 @@ node1->next=node2;
 Node * node3 = new Node(5);
 node2->next=node3;
 node3->next=node2;
-Node * meetNode=NULL;
 //comment above line to remove loop
+Node * meetNode=NULL;
 if(checkloop(head,meetNode)){
     cout<<"loop exists"<<endl;
     int len=countloop(head);
