@@ -39,7 +39,7 @@ return ptr1->data;
 }
 else{
 steps=count2-count1;
-if(steps=0){
+if(steps==0){
     return -1;
 }
 while(steps--){
