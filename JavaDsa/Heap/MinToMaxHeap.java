@@ -1,6 +1,6 @@
 import java.util.*;
 
-public class minToMaxHeap{
+public class MinToMaxHeap{
 
     static void heapify(int[] arr, int n, int i) {
         int largest = i;
