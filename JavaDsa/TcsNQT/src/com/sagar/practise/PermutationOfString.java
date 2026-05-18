@@ -1,36 +1,23 @@
 package com.sagar.practise;
 
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
+class PermutationOfString{
 
-public class PermutationOfString {
-    static void swap(char[] arr, int i, int j) {
-        char temp = arr[i];
-        arr[i] = arr[j];
-        arr[j] = temp;
 
-    }
-    static void permutationOfString(char[] arr, int i, List<String> result){
-   if(i==arr.length){
-       result.add(new String(arr));
-       return;
-
-   }
-for(int j=i;j<arr.length;j++){
-    swap(arr,i,j);
-    permutationOfString(arr,i+1,result);
-    swap(arr,i,j);
-}
+    static void print(String str, StringBuilder temp,int index){
+        if(temp.length()==str.length()){
+            System.out.println(temp);
+            return;
+        }
+        for(int i=index;i<str.length();i++){
+            temp.append(str.charAt(i));
+            print(str,temp,i+1);
+            temp.deleteCharAt(i);
+        }
     }
     public static void main(String[] args) {
-        String str = "abc";
-        char[] arr = str.toCharArray();
-        List<String> result = new ArrayList<>();
-        permutationOfString(arr,0,result);
-        System.out.println(result);
-
-
+        StringBuilder temp=new StringBuilder();
+        String str="abc";
+        print(str,temp,0);
 
     }
 }
