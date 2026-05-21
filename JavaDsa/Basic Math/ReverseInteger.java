@@ -4,7 +4,7 @@ int num=1256;
 int ans=0;
 while(num>0){
 int digit=num%10;
-ans=(and*10)+digit;
+ans=(ans*10)+digit;
 num/=10;
 
 }
