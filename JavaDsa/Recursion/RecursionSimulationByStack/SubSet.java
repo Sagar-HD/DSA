@@ -1,4 +1,4 @@
-//simulating the advantages given by recursion that is Stack and Stack grames with values called as State to hold 
+//simulating the advantages given by recursion that is Stack and Stack frames with values called as State to hold 
 //then keep on adding stack as reccursive function call until all function gets completed
 
 package RecursionSimulationByStack;
