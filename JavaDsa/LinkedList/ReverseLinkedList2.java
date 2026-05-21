@@ -7,7 +7,7 @@ class Node{
     this.val=val;
   }
 }
-public class ReverseLinkedList{
+public class ReverseLinkedList2{
   static Node head;
   static Node tail;
   
