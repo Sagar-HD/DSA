@@ -1,6 +1,6 @@
 import java.util.*;
 
-public class MinimaxFrequency {
+public class MinMaxFrequency_BruteForce {
     public static void main(String[] args) {
       int[] arr={1,3,6,3,7,8,9,7,7};
       boolean[] visited=new boolean[arr.length];
