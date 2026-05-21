@@ -1,6 +1,6 @@
 import java.util.*;
 
-public class RotateArray {
+public class RotateArrayByKPlaces {
   public static void reverse(int[] arr,int start,int end)
     {
     while(start<end){
