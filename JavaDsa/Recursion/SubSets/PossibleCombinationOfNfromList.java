@@ -32,7 +32,7 @@ public class PossibleCombinationOfNfromList {
             }
         }
     }
-    
+       //this is the correct method above are just for understanding
      static void possibleCombinationsNoOrder(int[] list,int n,int start,ArrayList<Integer> ans){
         if(n==0){
         System.out.println(ans);
@@ -54,6 +54,7 @@ public class PossibleCombinationOfNfromList {
         boolean[] visited=new boolean[list.length];
         
         possibleCombinationsWithoutRepetation(list, 2, new ArrayList<>(), visited);
+        //this is the correct answer above are just for understanding
         System.out.println("///////");
         possibleCombinationsNoOrder(list, 2, 0, new ArrayList<>());
 
