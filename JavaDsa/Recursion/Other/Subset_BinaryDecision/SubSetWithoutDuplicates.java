@@ -1,4 +1,4 @@
-package Practise.Subset_BinaryDecision;
+package Other.Subset_BinaryDecision;
 
 import java.util.ArrayList;
 import java.util.Arrays;

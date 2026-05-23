@@ -1,4 +1,4 @@
-package SubSets.Iteration;
+package SubSetsAndPermutation.Iteration;
 
 import java.util.ArrayList;
 // starting empty string matters to build up all Permutation

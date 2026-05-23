@@ -1,4 +1,4 @@
-package Practise.LinearRecursion;
+package Other.LinearRecursion;
 
 public class SumOfArray {
     static int sum(int[] arr,int index){

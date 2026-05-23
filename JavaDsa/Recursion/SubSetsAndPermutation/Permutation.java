@@ -1,4 +1,4 @@
-package SubSets;
+package SubSetsAndPermutation;
 
 public class Permutation {
     static void perm(String processed,String unProcessed){

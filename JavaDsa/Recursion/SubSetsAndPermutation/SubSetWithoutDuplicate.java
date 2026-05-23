@@ -1,5 +1,5 @@
 // need to dry run again and undestand
-package SubSets;
+package SubSetsAndPermutation;
 
 import java.util.ArrayList;
 import java.util.Arrays;

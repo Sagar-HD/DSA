@@ -1,4 +1,4 @@
-package SubSets;
+package SubSetsAndPermutation;
 
 import java.util.ArrayList;
 // this problem is not actual combination bcs order matters here 

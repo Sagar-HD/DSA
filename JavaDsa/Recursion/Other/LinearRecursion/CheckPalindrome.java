@@ -1,4 +1,4 @@
-package Practise.LinearRecursion;
+package Other.LinearRecursion;
 
 public class CheckPalindrome {
     static boolean isPali(String str,int start,int end){

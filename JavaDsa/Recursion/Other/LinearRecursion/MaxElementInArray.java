@@ -1,4 +1,4 @@
-package Practise.LinearRecursion;
+package Other.LinearRecursion;
 
 public class MaxElementInArray {
     static int max(int[] arr,int index){

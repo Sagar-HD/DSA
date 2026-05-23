@@ -1,4 +1,4 @@
-package SubSets;
+package SubSetsAndPermutation;
 
 public class SubSequencesOfString {
 static void printSub(String str,int index,String ans){

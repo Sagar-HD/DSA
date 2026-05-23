@@ -1,4 +1,4 @@
-package SubSets;
+package SubSetsAndPermutation;
 
 public class LetterCombinationsOfPhoneNumber {
     static void find(String processed,String unProcessed){
