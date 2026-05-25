@@ -1,5 +1,7 @@
 package SubSetsAndPermutation;
 
+import java.util.HashSet;
+
 public class Permutation {
     static void perm(String processed,String unProcessed){
         if(unProcessed.length()==0){
@@ -33,6 +35,31 @@ public class Permutation {
 
 
     }
+    //in this method no backtracking at each level iam using set to add a element only once in that position
+       static void perm3(String input,String ansSoFar){
+        if(input.isEmpty()){
+            System.out.println(ansSoFar);
+            return;
+        }
+        //new hash at each level to store the chars used at this position
+        // a level is a position , for that position we are iterating over input and adding all possibilities
+        HashSet<Character> set=new HashSet<>();
+        for(int i=0;i<input.length();i++){
+                 //just removing added element from input
+                  char currentAlpha=input.charAt(i);
+                  String newInput=input.substring(0,i)+input.substring(i+1);
+                 if(!set.contains(currentAlpha)){
+                    
+                perm3(newInput,ansSoFar+currentAlpha);
+
+                 }
+             
+            }
+
+        }
+
+
+    
     
     public static void main(String[] args) {
         String str="abc";
@@ -40,5 +67,7 @@ public class Permutation {
         boolean[] visited=new boolean[str.length()];
         System.out.println("//////");
         perm2(str,0,"", visited);
+         System.out.println("//////");
+        perm3(str,"");
     }
 }
