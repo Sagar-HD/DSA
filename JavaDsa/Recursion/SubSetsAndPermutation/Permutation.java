@@ -57,7 +57,37 @@ public class Permutation {
             }
 
         }
+        //permutation using swap method 
+            static void perm4(String input,int index){
 
+        if(index==input.length()){
+            System.out.println(input);
+            return;
+        }
+        //new hash at each level to store the chars swapped at this position
+        // a level is a position , for that position we are iterating over input and adding all possibilities
+        //only move forward from this index bcs swaoing without elements before is already handled
+        HashSet<Character> set=new HashSet<>();
+        for(int i=index;i<input.length();i++){
+                
+                //duplicates handled , controlled recursion
+                 if(!set.contains(input.charAt(i))){
+                    set.add(input.charAt(i));
+                    String swappedString=swap(input, index, i);
+                  perm4(swappedString,index+1);
+                  //no need of backtracking in java Strings are immutable so everytime we mutate new string created so new string is passed everytime
+
+                 }
+             
+            }
+
+        }
+static String swap(String str,int index1,int index2){
+    if(index1==index2) return str;
+    char char1=str.charAt(index1);
+    char char2=str.charAt(index2);
+    return str.substring(0,index1)+char2+str.substring(index1+1,index2)+char1+str.substring(index2+1);
+}
 
     
     
@@ -69,5 +99,7 @@ public class Permutation {
         perm2(str,0,"", visited);
          System.out.println("//////");
         perm3(str,"");
+        System.out.println("permutation by swapping");
+        perm4(str, 0);
     }
 }
