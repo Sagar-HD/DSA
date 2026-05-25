@@ -1,4 +1,4 @@
-package Other.LinearRecursion;
+package Simple.ForwardRecursion;
 
 public class PowerFunction {
     static double power(int x,int n){
