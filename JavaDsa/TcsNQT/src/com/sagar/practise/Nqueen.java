@@ -18,13 +18,14 @@ public class Nqueen {
         return true;
     }
     static void solve(char[][] board,int row,int col){
-        if(row>=board.length || col>=board[0].length){
+        if(row>=board.length){
             return;
         }
         for(int j=0;j<board[0].length;j++) {
             if (isPossible(board, row, j)) {
                 board[row][col] = 'Q';
                 solve(board, row + 1, j);
+                board[row][col]='.';
 
             }
         }
