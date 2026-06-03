@@ -7,6 +7,8 @@ public class BinaryTree {
       public int value;
       public Node left;
       public Node right;
+      //this field is added  for the purpose of connect node problem only
+      public Node next;
        public Node(int value){
         this.value=value;
 
@@ -57,8 +59,36 @@ public void populate(Scanner scanner){
     System.out.println(node.value);
     display(node.left,indent+"\t");
     display(node.right,indent+"\t");
+    
 }
+//this methods uses quque to process nodes level wise
+//keeps on increments the array index and then keep on adding it in level oder to nodes left and right
+public void populateTree(int[] arr){
+    if(arr == null || arr.length == 0){
+        return;
+    }
 
+    this.root = new Node(arr[0]);
+
+    java.util.Queue<Node> queue = new java.util.LinkedList<>();
+    queue.offer(this.root);
+
+    int i = 1;
+
+    while(i < arr.length){
+        Node current = queue.poll();
+
+        if(i < arr.length){
+            current.left = new Node(arr[i++]);
+            queue.offer(current.left);
+        }
+
+        if(i < arr.length){
+            current.right = new Node(arr[i++]);
+            queue.offer(current.right);
+        }
+    }
+}
 
 public static void main(String[] args) {
     BinaryTree binaryTree=new BinaryTree();
