@@ -1,4 +1,4 @@
-package Trees.BinaryTree.BinaryTreeProblems;
+package Trees.BinaryTree.BinaryTreeProblems.BFS;
 
 import java.util.*;
 
