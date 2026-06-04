@@ -31,20 +31,6 @@ return -1;
    }
 
 
-
-   static boolean isSiblings(Node node,Node x,Node y){
-    if(node==null){
-return false;
-    }
-       if (x == null || y == null) {
-        return false;
-    }
-    return (node.left==x && node.right==y)||(node.left==y && node.right==x)||isSiblings(node.left, x, y)||isSiblings(node.right, x, y);
-
-   }
-
-
-
    static Node findNode(Node node,int target){
     if(node==null){
         return null;
