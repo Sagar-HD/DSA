@@ -87,6 +87,74 @@ public class SymmetricTree {
     public static void main(String[] args) {
 
         
+// Symmetric
+        BinaryTree bt1 = new BinaryTree();
+
+        bt1.root = new Node(1);
+        bt1.root.left = new Node(2);
+        bt1.root.right = new Node(2);
+
+        bt1.root.left.left = new Node(3);
+        bt1.root.left.right = new Node(4);
+
+        bt1.root.right.left = new Node(4);
+        bt1.root.right.right = new Node(3);
+
+        System.out.println(isSymmetric(bt1.root));
+
+        // Not Symmetric (structure)
+        BinaryTree bt2 = new BinaryTree();
+
+        bt2.root = new Node(1);
+        bt2.root.left = new Node(2);
+        bt2.root.right = new Node(2);
+
+        bt2.root.left.right = new Node(3);
+        bt2.root.right.right = new Node(3);
+
+        System.out.println(isSymmetric(bt2.root));
+
+        // Symmetric with missing children
+        BinaryTree bt3 = new BinaryTree();
+
+        bt3.root = new Node(1);
+        bt3.root.left = new Node(2);
+        bt3.root.right = new Node(2);
+
+        bt3.root.left.left = new Node(3);
+        bt3.root.right.right = new Node(3);
+
+        System.out.println(isSymmetric(bt3.root));
+
+        // Not Symmetric (values)
+        BinaryTree bt4 = new BinaryTree();
+
+        bt4.root = new Node(1);
+        bt4.root.left = new Node(2);
+        bt4.root.right = new Node(2);
+
+        bt4.root.left.left = new Node(3);
+        bt4.root.left.right = new Node(5);
+
+        bt4.root.right.left = new Node(4);
+        bt4.root.right.right = new Node(3);
+
+        System.out.println(isSymmetric(bt4.root));
+
+        // Single node
+        BinaryTree bt5 = new BinaryTree();
+
+        bt5.root = new Node(1);
+
+        System.out.println(isSymmetric(bt5.root));
+
+        // Empty tree
+        BinaryTree bt6 = new BinaryTree();
+
+        bt6.root = null;
+
+        System.out.println(isSymmetric(bt6.root));
+
      
 
     }
