@@ -1,4 +1,4 @@
-package Trees.BinaryTree.BinaryTreeProblems;
+package Trees.BinaryTree.BinaryTreeProblems.BFS;
 
 
 import java.util.LinkedList;
@@ -58,6 +58,31 @@ public class ConnectNodesInLevel {
        }
         connectNodesWithoutQueue(node.right);
 
+
+     }
+     /*in this method iam going to left to right in each level ehile connecting nodes
+     but doing bfs in normal tree we cant go in level wise
+     beacuse we dont have next pointer to store which will be next, so we use queue to store next elem 
+     */
+     static void coonectWithPointers(Node root){
+        if(root==null){
+            return;
+        }
+        Node leftMost=root;
+        //while we not reach the lastlevel
+        while(leftMost.left!=null){
+           Node curNode=leftMost;
+           //in curent level while we not reach the end or rightmost node
+           while(curNode!=null){
+           curNode.left.next=curNode.right;
+           if(curNode.next!=null){
+            curNode.right.next=curNode.next.left;
+           }
+           curNode=curNode.next;
+           }
+           leftMost=leftMost.left;
+        
+        }
 
      }
 
