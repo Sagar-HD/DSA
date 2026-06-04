@@ -226,6 +226,14 @@ public class SymmetricTree {
         bt6.root = null;
 
         System.out.println(isSymmetric(bt6.root));
+           //
+        System.out.println("easy check method");
+        System.out.println(easyCheck(bt1.root));
+        System.out.println(easyCheck(bt2.root));
+        System.out.println(easyCheck(bt3.root));
+        System.out.println(easyCheck(bt4.root));
+        System.out.println(easyCheck(bt5.root));
+        System.out.println(easyCheck(bt6.root));
 
      
 
