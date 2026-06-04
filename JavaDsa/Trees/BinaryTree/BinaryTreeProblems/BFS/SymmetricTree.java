@@ -84,6 +84,78 @@ public class SymmetricTree {
     }
 
 
+    /// uffff i need to take care of many things if i go interms of palindrom
+    /// soo i decided to add the childrens in form of pairs so it becomes natural to
+    /// check and avoids next level boundaris mixing
+    /*
+     * Before: Had to convert symmetry into a level-palindrome problem.
+     * Now: Directly checks mirror pairs, which matches the actual definition of
+     * symmetry.
+     * Before: Had to manage levels, track level size, and ensure current and next
+     * levels didn't mix.
+     * Now: No level bookkeeping; each queue entry is simply a mirror pair to check.
+     * Before: Had to worry whether children were being added in the correct order
+     * for future palindrome checks.
+     * Now: Mirror relationships are stored explicitly, so ordering concerns
+     * disappear.
+     * Before: Had to carefully preserve nulls and tree structure through levels.
+     * Now: Null and structure mismatches are detected naturally when comparing
+     * pairs.
+     * Before: Correctness depended on several moving parts working together
+     * (levels, ordering, nulls, palindrome checks).
+     * Now: Correctness depends on one simple invariant: every queued pair must be
+     * mirror images.
+     * 
+     */
+    // by considering all above points ill use the below another methods
+    // if had chose this method earlier life would be easy
+    // but i dont want my life to be easy thats the problem 😂
+
+    static boolean easyCheck(Node root) {
+        if (root == null) {
+            return true;
+        }
+        Queue<Node> queue = new LinkedList<>();
+        // just not adding first root node start from their children to make lyf bit
+        // easy now
+        queue.offer(root.left);
+        queue.offer(root.right);
+
+        while (!queue.isEmpty()) {
+          //in this approach no need to maintain level size as we keep on adding pairs in queue we will check complete queue withou worrying about level
+            Node pair1 = queue.poll();
+            Node pair2 = queue.poll();
+            if (checkNodeSymetry(pair1, pair2)) {
+                if (pair1 != null) {
+                    queue.add(pair1.left);
+                }
+                if (pair2 != null) {
+                    queue.add(pair2.right);
+
+                }
+                if (pair1 != null) {
+                    queue.add(pair1.right);
+                }
+                if (pair2 != null) {
+                    queue.add(pair2.left);
+
+                }
+
+            } else {
+                return false;
+            }
+
+        }
+        return true;
+
+    }
+
+
+
+
+
+
+
     public static void main(String[] args) {
 
         
