@@ -1,4 +1,4 @@
-package Trees.BinaryTree.BinaryTreeProblems;
+package Trees.BinaryTree.BinaryTreeProblems.BFS;
 
 import java.util.Deque;
 import java.util.LinkedList;
@@ -22,7 +22,7 @@ public class ZigZagBfs {
         boolean revesre=false;
         while(!deque.isEmpty()){
              int levelSize=deque.size();
-             
+
              //we can also write if else inside for loop and make it clean 
 
             if(!revesre){
