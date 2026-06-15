@@ -1,9 +1,11 @@
 package Trees.BinarySearchTree;
 
+import Trees.BinaryTree.TreeNode;
+
 public class BinarySearchTree {
     public Node root;
 
-    public static class Node {
+    public static class Node implements TreeNode{
        public int value;
        public  Node left;
        public Node right;
@@ -13,6 +15,18 @@ public class BinarySearchTree {
             this.value = value;
             this.height=0;
         }
+          @Override
+       public TreeNode getLeft() {
+        return this.left;
+       }
+       @Override
+       public TreeNode getRight() {
+        return this.right;
+       }
+       @Override
+       public int getValue() {
+        return this.value;
+       }
 
     }
 
