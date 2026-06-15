@@ -3,7 +3,7 @@ import java.util.Scanner;
 public class BinaryTree {
 
 
-    public static class Node{
+    public static class Node implements TreeNode{
       public int value;
       public Node left;
       public Node right;
@@ -12,6 +12,18 @@ public class BinaryTree {
        public Node(int value){
         this.value=value;
 
+       }
+       @Override
+       public TreeNode getLeft() {
+        return this.left;
+       }
+       @Override
+       public TreeNode getRight() {
+        return this.right;
+       }
+       @Override
+       public int getValue() {
+        return this.value;
        }
 
     }
@@ -88,6 +100,24 @@ public void populateTree(int[] arr){
             queue.offer(current.right);
         }
     }
+}
+public void printTree() {
+    printTree(this.root, 0);
+}
+
+public void printTree(Node node, int level) {
+    if (node == null) {
+        return;
+    }
+
+    printTree(node.right, level + 1);
+
+    for (int i = 0; i < level; i++) {
+        System.out.print("    ");
+    }
+    System.out.println(node.value);
+
+    printTree(node.left, level + 1);
 }
 
 public static void main(String[] args) {
