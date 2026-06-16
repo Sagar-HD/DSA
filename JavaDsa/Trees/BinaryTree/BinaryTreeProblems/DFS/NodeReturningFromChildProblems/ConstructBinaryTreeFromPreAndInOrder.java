@@ -1,6 +1,9 @@
 package Trees.BinaryTree.BinaryTreeProblems.DFS.NodeReturningFromChildProblems;
 
 import java.util.Arrays;
+import java.util.HashMap;
+
+import Trees.BinaryTree.BinaryTree;
 import Trees.BinaryTree.BinaryTree.Node;
 
 public class ConstructBinaryTreeFromPreAndInOrder {
@@ -18,6 +21,22 @@ public class ConstructBinaryTreeFromPreAndInOrder {
         node.right=buildTree(Arrays.copyOfRange(preorder,index+1,preorder.length),Arrays.copyOfRange(inorder,index+1,inorder.length));
         return node;
         
+    }
+    // now instead of looping over inorder to find index we are using hashmap
+    // and instead od copying whole array for space optimization and time optimization we pass left and right index
+    //pre order index is primitive so just using array with one element to store index
+    public static Node buildTree2(int[] preorder, int[] inorder,int left,int right,int[] preorderIndex,HashMap<Integer,Integer> indexMap){
+        if(left>right){
+            return null;
+        }
+        int current=preorder[preorderIndex[0]];
+        preorderIndex[0]++;
+        Node node=new Node(current);
+        int inorderCurrentNodeIndex=indexMap.get(current);
+        node.left=buildTree2(preorder,inorder,left,inorderCurrentNodeIndex-1,preorderIndex,indexMap);
+        node.right=buildTree2(preorder,inorder,inorderCurrentNodeIndex+1,right,preorderIndex,indexMap);
+        return node;
+
     }
 
    public static void main(String[] args) {
@@ -82,5 +101,23 @@ public class ConstructBinaryTreeFromPreAndInOrder {
     System.out.println("Left.Right: " + root5.left.right.value);   // 5
     System.out.println("Right.Left: " + root5.right.left.value);   // 6
     System.out.println("Right.Right: " + root5.right.right.value); // 7value
+    
+    //testing second method 
+    HashMap<Integer, Integer> map = new HashMap<>();
+for (int i = 0; i < inorder1.length; i++) {
+    map.put(inorder1[i], i);
+}
+
+Node root = buildTree2(
+        preorder1,
+        inorder1,
+        0,
+        inorder1.length - 1,
+        new int[]{0},
+        map
+);
+BinaryTree bt=new BinaryTree();
+bt.root=root;
+bt.printTree();
    }
 }
