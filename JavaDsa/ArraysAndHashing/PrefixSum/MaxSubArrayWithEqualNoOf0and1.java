@@ -35,7 +35,8 @@ public class MaxSubArrayWithEqualNoOf0and1 {
         HashMap<Integer, Integer> map = new HashMap<>();
         map.put(0, -1);
         int length = 0;
-        for (int i = 0; i < nums.length; i++) {
+         //instead of looping again we can do this while calculating prefix sum only
+        for (int i = 0; i < prefixSum.length; i++) {
             if (!map.containsKey(prefixSum[i])) {
                 map.put(prefixSum[i], i);
             } else {
