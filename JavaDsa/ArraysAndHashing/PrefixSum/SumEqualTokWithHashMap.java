@@ -25,6 +25,7 @@ public class SumEqualTokWithHashMap {
         prefixsum[i]=prefixsum[i-1]+nums[i];
     }
     HashMap<Integer,Integer> map=new HashMap<>();
+    //instead of looping again we can do this while calculating prefix sum only
     for(int i=0;i<prefixsum.length;i++){
         int neededPrefSum=prefixsum[i]-k;
         if(prefixsum[i]==k){
