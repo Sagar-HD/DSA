@@ -1,4 +1,4 @@
-package graphs.problems.generalTraversalProblems.BipartiteVerification;
+package graphs.problems.Undirected.generalTraversalProblems.BipartiteVerification;
 
 import java.util.ArrayList;
 import java.util.LinkedList;

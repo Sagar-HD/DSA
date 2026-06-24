@@ -1,4 +1,4 @@
-package graphs.problems.generalTraversalProblems;
+package graphs.problems.Undirected.generalTraversalProblems;
 //this problem is solved usinf dfs it could also been solved using multi source bfs
 public class ReplaceBoundedOWithX {
 

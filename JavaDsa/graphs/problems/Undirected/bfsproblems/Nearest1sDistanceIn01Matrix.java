@@ -1,4 +1,4 @@
-package graphs.problems.bfsproblems;
+package graphs.problems.Undirected.bfsproblems;
 
 import java.util.LinkedList;
 import java.util.Queue;

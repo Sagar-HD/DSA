@@ -1,4 +1,4 @@
-package graphs.problems.generalTraversalProblems.CycleDetection;
+package graphs.problems.Undirected.generalTraversalProblems.CycleDetection;
 
 import java.util.ArrayList;
 import java.util.LinkedList;

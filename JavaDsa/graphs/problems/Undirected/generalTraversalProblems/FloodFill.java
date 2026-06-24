@@ -1,4 +1,4 @@
-package graphs.problems.generalTraversalProblems;
+package graphs.problems.Undirected.generalTraversalProblems;
 
 public class FloodFill {
 
