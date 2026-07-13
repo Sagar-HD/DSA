@@ -5,7 +5,21 @@ import java.util.PriorityQueue;
 
 /**
  * NoOfWaysToArriveAtDestinationInShortTime
+ 
  */
+//observe how we can not just calculate no of ways to destinantion by counting when a node reaches them usinf 
+/*    if(!visited[neighbour]){
+              visit..
+        }
+       else{
+            if(distance==distance[neighbour]){
+                ways=ways+1;
+            }
+       }
+
+       the above thing we cant do bcs we cant simple do ways+1 bcs its parent may have n ways to reach
+       so we see ways to parent and add them
+*/
 
 public class NoOfWaysToArriveAtDestinationInShortTime {
       public static class Pair{
