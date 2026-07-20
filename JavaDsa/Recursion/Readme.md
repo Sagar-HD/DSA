@@ -1,331 +1,450 @@
-# Recursion
+# Mental Model: Recursion — Why It Exists
 
-This repository organizes recursion by **problem-solving patterns**, not by problem names. Each folder represents a different way recursion is used.
+Most books define recursion as
 
-## Structure
+> **"A function calling itself."**
 
-```text
-Recursion
-├── Simple
-├── RecursionOnArray
-├── RecursionWithPassingAnsInArgs
-├── RecursionCombiningAnsFromBelow
-├── Backtracking
-├── SubSetsAndPermutation
-├── SortingWithRecursion
-├── HypothesisInductionBase
-└── Other
-```
+While that is technically correct, it doesn't explain **why recursion exists** or **why anyone would ever want a function to call itself.**
 
-* **Simple** – Basic recursion and call flow.
-* **RecursionOnArray** – Recursive processing of arrays.
-* **RecursionWithPassingAnsInArgs** – State is propagated downward through function arguments.
-* **RecursionCombiningAnsFromBelow** – Recursive calls return answers which are combined by the parent.
-* **Backtracking** – Explore a search space while pruning invalid states.
-* **SubSetsAndPermutation** – Choice-based recursion.
-* **SortingWithRecursion** – Recursive sorting techniques.
-* **HypothesisInductionBase** – Recursive solutions designed using the Hypothesis–Induction–Base method.
+To understand recursion, forget the definition for a moment and think about how we naturally solve problems.
 
 ---
 
-# Recursion as a State Space Graph
+# The Story: Where Recursion Comes From
 
-Every recursive problem can be viewed as traversing a **state space graph**.
+Imagine you're writing code normally.
 
-* A **node** represents a state.
-* An **edge** represents a valid transition (decision) from one state to another.
+Suppose someone asks you to print:
 
-Examples of states:
-
-```text
-Binary Search
-(low, high)
-
-Maze
-(currentRow, currentCol)
-
-Dice
-(diceUsed, currentSum)
-
-N Queens
-(currentRow, occupiedColumns)
+```java
+print(1);
+print(2);
+print(3);
+print(4);
+print(5);
 ```
 
-The recursive function moves from one state to another until a terminal state is reached.
+This works.
+
+But tomorrow someone asks you to print till **100**.
+
+Then till **1000**.
+
+Now you notice something.
+
+You are **not writing different logic every time.**
+
+The work is exactly the same.
+
+Only the **input changes**.
+
+Naturally, you think,
+
+> **"Instead of writing the same code again and again, why don't I call the same function again with the next input?"**
+
+That observation is the birth of recursion.
+
+A function is allowed to call another function.
+
+Nothing says that the other function cannot be **itself**.
+
+So instead of writing the same code repeatedly, we simply let the function call itself with a different input.
+
+Now only one question remains.
+
+> **"When should it stop?"**
+
+The answer to that question is called the **base case**.
+
+The base case is not a special recursion concept.
+
+It simply means:
+
+> **"This is the condition after which I don't need to repeat the same work anymore."**
+
+That's the entire idea behind recursion.
+
+Whenever the **same work needs to be performed repeatedly on different inputs**, recursion naturally matches that requirement.
 
 ---
 
-# Why DFS?
+# Two Different Problems Naturally Fit This Idea
 
-Recursion naturally performs **Depth First Search (DFS)**.
+Once recursion exists, we start noticing that many completely different problems naturally fit this pattern.
 
-```text
-State
-├── Choice 1
-│   ├── ...
-│   └── ...
-├── Choice 2
-└── Choice 3
-```
-
-The function completely explores one branch before returning and exploring the next.
-
-This is exactly DFS.
+Interestingly, they fall into two categories.
 
 ---
 
-# Can BFS Be Used?
+# Story 1 — The Walker
 
-Yes.
+Imagine someone tells you:
 
-The same state space can be explored using **Breadth First Search** by maintaining an explicit queue instead of the call stack.
+> **"From here, keep walking straight, then turn right. Repeat these instructions until you reach your destination."**
 
-DFS uses:
+Notice what is happening.
 
-* Function call stack
-* Memory proportional to recursion depth
+The same instruction is repeated again and again.
 
-BFS uses:
+```
+Walk
 
-* Queue
-* Stores every active state of the current level
+↓
 
-For most recursive search problems, BFS requires much more memory because every unfinished choice must remain in the queue simultaneously.
+Take Right
 
-DFS only keeps the current path.
+↓
 
-Therefore recursive solutions are naturally written as DFS.
+Walk
+
+↓
+Take Right
+
+↓
+
+Destination
+```
+
+This perfectly matches recursion.
+
+The same function keeps calling itself to repeat the same instruction.
+
+Now ask,
+
+> **"When do I stop?"**
+
+The answer is simple.
+
+When I reach the destination.
+
+That stopping condition becomes the **base case**.
+
+And something important happens here.
+
+The moment we stop,
+
+**we already have our answer.**
+
+There is nothing left to calculate.
+
+Nothing needs to be combined.
+
+The recursive calls only existed to repeat the same instruction.
+
+This way of thinking is called
+
+# Push Recursion
+
+because every recursive call simply **pushes the work forward** until the stopping condition itself becomes the answer.
 
 ---
 
-# Backtracking
+# Story 2 — The Mathematician
 
-Backtracking is DFS on a state space graph with pruning.
+Now imagine asking a mathematician
 
-Algorithm:
+> **"What is the sum of the first `n` numbers?"**
 
-1. Visit current state.
-2. Generate all possible next states.
-3. Ignore invalid states.
-4. Recursively explore valid states.
-5. Undo changes if necessary.
-6. Continue with the next choice.
+Can they immediately answer?
 
-Only feasible states are explored.
+Usually, no.
 
----
+This is how we naturally solve almost every difficult problem in real life.
 
-# Two Recursive Views
+If we don't already know the answer as a fact,
 
-The same recursion can be designed in two different ways.
+we build it from smaller answers.
 
-## 1. Choice-Based Recursion
+For example,
 
-Question:
-
-> **What choices are available from the current state?**
-
-Example:
-
-```text
-Dice
-
-Choose 1
-Choose 2
-...
-Choose 6
 ```
-
-The function constructs a complete solution.
-
-State contains everything needed for future decisions.
-
-Examples:
-
-```text
-currentSum
-currentPath
-visited[]
-board
-index
-```
-
-The state depends on previous choices, so this information is passed to recursive calls.
-
-### Base Case
-
-The recursion stops after all choices have been made.
-
-Then the completed solution is validated.
-
-```text
-All dice used
-
-sum == target ?
-
-Yes -> 1
-No  -> 0
-```
-
-Information flows **downward**.
-
----
-
-## 2. Subproblem (DP) Recursion
-
-Question:
-
-> **What is the answer for this state?**
-
-Example:
-
-```text
-Ways(diceLeft, remainingTarget)
-```
-
-The function does not construct solutions.
-
-It simply returns the answer for the current state.
-
-Parent states combine answers returned by child states.
-
-```text
-Ways(3,7)
+Sum(5)
 
 =
 
-Ways(2,6)
-+
-Ways(2,5)
-+
-Ways(2,4)
+5 + Sum(4)
+```
+
+But
+
+```
+Sum(4)
+
+=
+
+4 + Sum(3)
+```
+
+Then
+
+```
+Sum(3)
+
+=
+
+3 + Sum(2)
+```
+
+Eventually we reach something whose answer is already known.
+
+```
+Sum(1)=1
+```
+
+This becomes the **base case**.
+
+Notice the difference from the walker.
+
+Stopping here **does not** give the final answer.
+
+Stopping only gives us the **smallest known fact**.
+
+Now the recursive calls start returning.
+
+As the call stack returns,
+
+each function simply combines its own contribution.
+
+```
+Sum(2)=2+1
+
+↓
+
+Sum(3)=3+3
+
+↓
+
+Sum(4)=4+6
+
+↓
+
+Sum(5)=5+10
+```
+
+Every function is saying,
+
+> **"Once the smaller answer comes back, I'll add my own part to it."**
+
+Even mathematical formulas were discovered like this.
+
+For example,
+
+```
+n(n+1)/2
+```
+
+didn't magically appear.
+
+Someone first solved many smaller cases,
+
+noticed the pattern,
+
+and finally compressed everything into one formula.
+
+This style of recursion is called
+
+# Pull Recursion
+
+because every recursive call **pulls** the answer from a smaller recursive call and combines it into its own answer.
+
+Unlike Push,
+
+the base case is **not** the final answer.
+
+It is only the smallest known fact from which every larger answer is built.
+
+---
+
+# The Difference Between Push and Pull
+
+Every recursive problem can be understood by asking one simple question.
+
+> **"When I reach the base case, do I already have my answer?"**
+
+If the answer is
+
+> **Yes.**
+
+Then it is **Push Recursion**.
+
+The answer is obtained the moment recursion stops.
+
+If the answer is
+
+> **No. I still have to combine smaller answers while returning.**
+
+Then it is **Pull Recursion**.
+
+The answer is built while the **call stack unwinds**.
+
+That is the only difference.
+
+---
+
+# Pull Recursion Can Be Modeled in Two Ways
+
+Once you've decided that your problem is Pull Recursion,
+
+you can model it in two different directions.
+
+## Backward Pull
+
+The base case is the **smallest known answer**.
+
+```
+1
+
+↓
+
+2
+
+↓
+
+3
+
+↓
+
 ...
+
+↓
+
+n
 ```
 
-### Base Case
+Recursion keeps going until it reaches the smallest fact.
 
-Return the answer for the smallest known problem.
+Then while returning through the call stack,
 
-Example:
+every function combines its own contribution.
 
-```text
-Ways(0,0) = 1
+Examples:
 
-Ways(0,x) = 0
-```
-
-Information flows **upward**.
+- Factorial
+- Sum
+- Tree Height
+- Reverse Stack
 
 ---
 
-# Why Does Choice-Based Recursion Pass More Information?
+## Forward Pull
 
-Future decisions depend on previous decisions.
+Sometimes the problem is naturally defined from the other side.
 
-Example:
+Instead of asking
 
-```text
-Current Sum = 12
-Dice Used = 3
+> **"Answer till i"**
+
+we ask
+
+> **"Answer from i till the end."**
+
+Now the recursion keeps moving toward the end.
+
+```
+0
+
+↓
+
+1
+
+↓
+
+2
+
+↓
+
+...
+
+↓
+
+n
 ```
 
-The next recursive call must know these values because future validity depends on them.
+The base case now lives at the end instead of the beginning.
 
-The recursion carries the current state forward.
+When recursion reaches it,
+
+the complete answer is still **not ready**.
+
+The answer is still built only while the recursive calls return.
+
+So this is **still Pull Recursion**.
+
+The only thing that changes is **where the base case is placed**.
 
 ---
 
-# Why Does DP Not Need Full History?
+# Forward vs Backward Recursion (Different Concept)
 
-DP stores only the information required to define the remaining problem.
+Your repository also has folders named
 
-Example:
+- `ForwardRecursion`
+- `BackwardRecursion`
+
+These are talking about something completely different.
+
+They answer a different question.
+
+Instead of asking
+
+> **"When do I get my answer?"**
+
+they ask
+
+> **"When do I perform my work?"**
+
+Forward Recursion
 
 ```text
-Dice Left = 2
-Remaining Target = 5
+Work
+
+↓
+
+Recursive Call
 ```
 
-It does not matter whether this state was reached by
+Backward Recursion
 
 ```text
-1,4
+Recursive Call
+
+↓
+
+Work
 ```
 
-or
+This is simply about whether the work happens before or after the recursive call.
 
-```text
-2,3
-```
-
-The remaining problem is identical.
-
-The previous path is irrelevant.
-
-A DP state is therefore a **compressed representation of history**.
+It is completely independent of Push and Pull.
 
 ---
 
-# Why Dynamic Programming?
+# Repository Structure
 
-Pure recursion recomputes identical states.
+The folders in this repository follow these mental models.
 
-Example:
-
-```text
-Choose 1 → Choose 2
-
-Choose 2 → Choose 1
-```
-
-Both may reach
-
-```text
-(diceLeft = 2, remainingTarget = 5)
-```
-
-Without DP:
-
-```text
-Solve the same state repeatedly.
-```
-
-With memoization:
-
-```text
-Solve once.
-Store.
-Reuse.
-```
-
-The recursion tree becomes a Directed Acyclic Graph (DAG), where each unique state is computed only once.
+- **Simple/** introduces recursion itself and demonstrates the difference between doing work before or after the recursive call.
+- **RecursionOnArray/** applies the same recursive operation repeatedly on arrays.
+- **HypothesisInductionBase/** teaches Pull recursion using the hypothesis-induction-base way of thinking.
+- **RecursionCombiningAnsFromBelow/** focuses entirely on combining answers while returning through the call stack.
+- **RecursionWithPassingAnsInArgs/** demonstrates Push recursion by carrying the answer downward instead of combining it later.
+- **Backtracking/** repeatedly makes choices until a stopping condition is reached, undoing those choices while returning.
+- **SubSetsAndPermutation/** explores every possible choice using recursive branching.
+- **SortingWithRecursion/** applies recursion to recursive sorting techniques.
+- **RecursionSimulationByStack/** demonstrates how recursion actually behaves internally by simulating the call stack explicitly.
 
 ---
 
-# When to Use Each Approach
+# Golden Rule
 
-### Choice-Based Recursion
+> **Recursion exists because we observed that whenever the same work must be repeated on different inputs, the simplest solution is to let the same function call itself repeatedly.**
 
-Use when the goal is to:
+> **The base case simply tells recursion when to stop repeating that work.**
 
-* Generate solutions
-* Print solutions
-* Enumerate paths
-* Explore combinations
-* Explore permutations
-* Perform backtracking
+> **If stopping itself gives the answer, it's Push Recursion.**
 
-### Subproblem (DP) Recursion
+> **If stopping only gives the smallest known fact and the answer is built while the call stack returns, it's Pull Recursion.**
 
-Use when the goal is to:
+> **Forward Pull and Backward Pull only differ in where the base case is defined. In both cases, the answer is still built while the call stack unwinds.**
 
-* Count ways
-* Find minimum/maximum
-* Compute optimal values
-* Compute probabilities
-* Avoid repeated computation using memoization
-
-The recursive calls may be identical in both approaches. The difference lies in what the recursive function represents:
-
-* **Choice recursion** explores decisions.
-* **Subproblem recursion** returns answers for states.
+> **Forward Recursion and Backward Recursion are a different idea altogether—they only describe whether the work happens before or after the recursive call.**
