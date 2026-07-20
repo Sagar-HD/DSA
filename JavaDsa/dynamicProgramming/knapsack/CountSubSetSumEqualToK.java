@@ -11,16 +11,15 @@ public class CountSubSetSumEqualToK {
         }
          int[][] dp = new int[arr.length+1][k + 1];
 
+         
+         dp[0][0]=1;
+
         
         
-         for(int j=0;j<dp[0].length;j++){
-             dp[0][j]=0;
-         }
-          for(int i=0;i<dp.length;i++){
-            dp[i][0]=1;
-          }
+        
+          //j should start from 0 bcs it should consider when array has 0 as elements the 0 sum must be increased
           for(int i=1;i<dp.length;i++){
-            for(int j=1;j<dp[0].length;j++){
+            for(int j=0;j<dp[0].length;j++){
 
                 if(arr[i-1]<=j){
                    dp[i][j]=dp[i-1][j] + dp[i-1][j-arr[i-1]];
