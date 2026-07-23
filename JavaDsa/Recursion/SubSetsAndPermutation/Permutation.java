@@ -103,3 +103,30 @@ static String swap(String str,int index1,int index2){
         perm4(str, 0);
     }
 }
+
+/*
+ * Why do all four methods generate permutations?
+ *
+ * All four solve the same underlying problem. The only difference is
+ * how they represent the recursion state.
+ *
+ * 1. Insertion Method
+ *    State = Processed String + Unprocessed String
+ *
+ * 2. Visited Array Method
+ *    State = Current Permutation + visited[]
+ *
+ * 3. Remove From Input Method
+ *    State = Current Permutation + Remaining Input
+ *
+ * 4. Swap Method
+ *    State = Current Arrangement + Fixed Index
+ *
+ * Although the state representation is different in each approach,
+ * the recursive choice is exactly the same:
+ *
+ *     "Choose the next character to place in the permutation."
+ *
+ * Each method explores every valid choice exactly once, so all of
+ * them generate every possible permutation.
+ */
