@@ -1,5 +1,5 @@
 package dynamicProgramming.unboundedKnapsack;
-
+//unbounded knapsack cannot have 0 as its element bcs it causes infinite ways by considering 0 many times 
 public class MaxKnapsack01Unbounded {
     static int getMax(int[] values,int[] weights,int capacity){
       
