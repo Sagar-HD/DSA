@@ -1,152 +1,151 @@
-```markdown
-# Mental Model: Push vs Pull Recursion & DP
+# 🧭 The Ultimate DP Blueprint: State Design & Execution
+
+> Dynamic Programming is **not** about converting recursion into a table.
+> It is the art of framing a subproblem with **exactly enough information** to derive its answer from smaller subproblems.
+
+---
+
+## 🗂️ Table of Contents
+
+1. [Part 1: The DP Design Workflow](https://www.google.com/search?q=%23-part-1-the-dp-design-workflow)
+2. [Part 2: Push vs. Pull & The State Reduction Pivot](https://www.google.com/search?q=%23-part-2-push-vs-pull--the-state-reduction-pivot)
+3. [Part 3: Worked Example: Longest Common Substring](https://www.google.com/search?q=%23-part-3-worked-example-longest-common-substring)
+4. [Part 4: Core Mental Triggers & Golden Rules](https://www.google.com/search?q=%23-part-4-core-mental-triggers--golden-rules)
+
+---
+
+## 📐 Part 1: The DP Design Workflow
+
+When tackling any DP problem, start with whatever recursive mental model comes naturally. Once you have a working recursive intuition, refine the state dimensions before building the DP table.
 
 ```text
-                    USER PROBLEM
-                         │
-                         ▼
-               Define State (English)
-                         │
-                         ▼
-          Does this state answer "what do I
-          already know" or "what do I need
-          from below"?
-                         │
-          ┌──────────────┴──────────────┐
-          │                             │
-          ▼                             ▼
-      PUSH MODEL                    PULL MODEL
- "I know this. Let me          "I don't know this.
-  tell my future self."         Let me ask my children."
-          │                             │
-          ▼                             ┌────────┴────────┐
-   State Propagation                    │                 │
- (DFS / Reachability /                  ▼                 ▼
-  Relaxation)                     Backward Pull      Forward Pull
-          │                       (Prefix State)    (Suffix State)
-          │                             │                 │
-          ▼                             ▼                 ▼
-   Memo = visited[]               Memo = answer[]   Memo = answer[]
-          │                             │                 │
-          ▼                             ▼                 ▼
-   Tabulation                    Tabulation        Tabulation
-          │                             │                 │
-          ▼                             ▼                 ▼
- Initialize source               Initialize Base   Initialize Base
- (starting state)                     Cases             Cases
-          │                             │                 │
-          ▼                             ▼                 ▼
- Propagate Forward                 Fill 0 → n        Fill n → 0
-          │                             │                 │
-          ▼                             ▼                 ▼
- Read destination               Return dp[n][K]   Return dp[0][0]
- (goal state)
+                        PROBLEM
+                           │
+                           ▼
+              Write Natural Recursion 
+               (Push or Pull Model)
+                           │
+                           ▼
+          What information is being carried?
+                           │
+                           ▼
+          Can this variable be derived from
+             the other state variables?
+                           │
+            ┌──────────────┴──────────────┐
+           YES                            NO
+            │                             │
+            ▼                             ▼
+     Remove Redundant           Can I redefine the state 
+        Variable                 so this info becomes 
+                                   the DP VALUE?
+                                         │
+                          ┌──────────────┴──────────────┐
+                         YES                            NO
+                          │                             │
+                          ▼                             ▼
+                  Reframe as Pull DP           Keep Extra Dimension
+                 (Reduced Dimension)          (e.g., dp[i][j][count])
 
 ```
 
 ---
 
-## 🎯 Step 0: The Core DP Decision
+## ⚡ Part 2: Push vs. Pull & The State Reduction Pivot
 
-When transitioning from pure recursion to Dynamic Programming, the entire structure of your memoization table and loops hinges on one fundamental question about your state:
+### 1. Write What Feels Natural First
 
-> 💡 **"At the moment I define `dp[state]`, do I already have enough information to compute its value directly — or does computing it require answers from states I haven't computed yet?"**
+When encountering a new problem, write down whichever recursion model comes to mind first:
 
-* **If you already have enough info:** You are **pushing** that finalized value forward to update future states.
-* **If you need info from unvisited states:** You are **pulling** values back from dependencies to build the current state.
+* **Push Recursion:** Accumulates information downward through parameters as you traverse choices (e.g., `solve(index, current_sum, current_streak)`).
+* **Pull Recursion:** Queries child subproblems upward and returns a value to the parent (e.g., `solve(index) = best_of(solve(index + 1))`).
 
-This is a design decision made when you frame the state, not an immutable property of the problem. Same problem, different state framing = completely different mode.
-
-### Example: The Knapsack Problem Both Ways
-
-* **Pull (Suffix) Formulation:**
-`solve(i, w)` = *"Best value using items from index i onward, with capacity w"*
-`solve(i, w)` depends on `solve(i+1, w)` and `solve(i+1, w - wt[i])`. This is a classic **Forward Pull** requiring a table fill from $n \rightarrow 0$.
-* **Push (Prefix) Formulation:**
-`dp[i][w]` = *"Best value achievable using the first i items, with capacity w"*
-Built via **Forward Propagation / Relaxation**. You process item `i` and immediately push its finalized effect forward to update `dp[i+1][*]`. This is a **Push Model** requiring a table fill from $0 \rightarrow n$.
+Both Push and Pull recursion can technically be converted into DP tables. However, **Pull DP is heavily preferred** for tabulation because it yields cleaner dependency loops and direct array assignments.
 
 ---
 
-## 🫸 THE PUSH MODEL
+### 2. The Push State Reduction Trap
 
-### 1. Pure Push Recursion (State Generation)
+In Push recursion, state parameters often represent **accumulated history** passed forward (e.g., running total, current matching streak, available capacity).
 
-Used when the goal is exploration, configuration check, or total generation rather than optimal value accumulation.
-
-* **Natural Home:** *DFS, Flood Fill, Maze Traversal, N-Queens, Sudoku Solver, Generating Subsets/Permutations, Combination Sum.*
-* **The Mindset:** *"I know my current state layout perfectly. Let me hand it off to create valid children."*
-* **Information Flow:** Parent $\rightarrow$ Children. No return value flows back up that alters correctness; you are mapping state space reachability.
-
-### 2. Push DP (Forward Propagation / Relaxation)
-
-Used when processing edges, events, or transitions in an explicit order where each step updates downstream possibilities.
-
-* **Natural Home:** *DAG Longest/Shortest Path (Topological Relaxation), Bellman-Ford, Floyd-Warshall, Reachability DP, Automata/State Machine DP, BFS-layer DP, Online Streaming Algorithms.*
-* **The Mindset:** *"This state is already valid and finalized. Let me update all future states that can be reached from here."*
-
-### DP Execution Pipeline
-
-1. **Initialize:** Set the starting source state(s) to a base value (e.g., `dp[src] = 0` or `true`).
-2. **Propagate:** Iterate forward through states, pushing updates down to future dependencies.
-3. **Memoization Strategy:** Uses a `visited[]` array or distance check (`if (next_dist > curr_dist + weight)`) to track finalized states.
-4. **Read Output:** The answer is read directly from the destination goal state at the end of execution.
+Attempting to reduce dimensions while staying in a Push mindset is often difficult or impossible because future states depend on that carried history.
 
 ---
 
-## 🫴 THE PULL MODEL
+### 3. The Pivot: Reframe Push into Pull
 
-In a Pull model, a state's value is calculated as a direct function of its children's values. You cannot resolve the parent until you recursively or iteratively query the children first.
+To reduce state space, pivot your perspective:
 
-### 1. Backward Pull (Prefix State)
+> **Instead of asking:** *"What running state am I carrying forward?"* (Push)
+> **Ask:** *"What does this subproblem contribute/return on its own?"* (Pull)
 
-* **State Shape:** `dp[i]` = *"Best/possible answer using the first i elements"*
-* **Natural Home:** *0/1 Knapsack (Prefix framing), Subset Sum, Partition Problems, Target Sum, Coin Change.*
-* **The Mindset:** *"My answer for the first `i` items depends directly on the already-known answers for the first `i-1` items."*
-* **Information Flow:** Children (`dp[i-1]`) $\rightarrow$ Parent (`dp[i]`).
-* **Execution Profile:** Initialize base case `dp[0]`. Fill table sequentially from **$0 \rightarrow n$**. Return `dp[n][...]`.
+By redefining the subproblem in terms of what it **returns** rather than what it **receives**, accumulated history parameters are transformed into the **value stored inside the DP table**.
 
-### 2. Forward Pull (Suffix State)
-
-* **State Shape:** `dp[i]` = *"Best/possible answer starting from index i onward to the end"*
-* **Natural Home:** *LCS, Edit Distance, Distinct Subsequences, Wildcard/Regex Matching, Word Break, Decode Ways.*
-* **The Mindset:** *"My answer at this current position depends on pulling the answers from future positions."*
-* **Information Flow:** Children (`dp[i+1]`) $\rightarrow$ Parent (`dp[i]`).
-* **Execution Profile:** Initialize base case `dp[n]`. Fill table backward from **$n \rightarrow 0$**. Return `dp[0][0]`.
-
----
-
-## ⚖️ Diagnostic Matrix: When Direction is Forced
-
-While many DP problems can be modeled both ways, certain constraints will force your hand:
-
-| Forces PUSH Only | Forces PULL Only |
-| --- | --- |
-| **Online/Streaming Input:** Future items do not exist yet when you process index `i`. You must push current data into a running state. | **Global Logic Dependencies:** You need a single global evaluation that logically requires evaluating all execution branches completely before an answer is known (e.g., full string parsers). |
-| **No Fixed Topology:** The graph has no clean recursive structure (e.g., general graphs with negative edges like Bellman-Ford). | **Strict Decomposition:** The state breaks down cleanly into smaller, completely isolated subproblems with zero state cross-talk. |
-| **Incremental Queries:** You need to support anytime queries mid-computation. | **Bounded Stack Space:** The recursion tree depth is small enough that the language's call stack handles execution natively and cleanly. |
-
----
-
-## 🧠 One-Line Mental Triggers
-
-* **PUSH:** *"I already know something. Let me propagate it forward, once, as I learn it."*
-`Initialize Start` $\rightarrow$ `Propagate updates` $\rightarrow$ `Read Final Goal`
-* **PULL:** *"I don't know my answer yet. Let me ask my children for theirs and combine them."*
-`Initialize Base Cases` $\rightarrow$ `Compute Dependencies` $\rightarrow$ `Return Root State Value`
-
----
-
-## 👑 The DP Golden Rule
-
-> **The state you choose defines the recursion.**
-> **The recursion defines the dependencies.**
-> **The dependencies define whether you are pushing or pulling — not the problem itself.**
-> * **Push Mode:** Destination states accumulate the final answer as a cumulative side-effect of forward propagation.
-> * **Pull Mode:** The initial recursive state call's returned value *is* the final answer.
-> 
-> 
+```text
+PUSH RECURSION (Carries History)             PULL DP (Returns Contribution)
+--------------------------------             -----------------------------
+f(i, j, streak)                     ──►      dp[i][j] = Longest streak
+State: (i, j, streak)                        ENDING at (i, j)
+Extra dimension required!                    Dimension reduced!
 
 ```
 
+---
+
+## 🧪 Part 3: Worked Example: Longest Common Substring
+
+### Step 1: Natural Push Recursion
+
+When comparing strings $A$ and $B$, the initial intuition is often to push the running streak forward:
+
+```text
+f(i, j, streak)
+
 ```
+
+* **State:** $(i, j, \text{streak})$
+* **Is `streak` redundant?** No. You can reach $(i, j)$ with different running streak lengths.
+* **Direct Memoization:** Requires a 3D table `dp[i][j][streak]` (expensive in time and space).
+
+---
+
+### Step 2: The Pull State Pivot
+
+To drop the `streak` dimension, reframe the subproblem into a Pull state:
+
+> Define $dp[i][j]$ as: **The length of the longest common substring ENDING at index $i$ in string A and index $j$ in string B.**
+
+Now, `streak` is no longer a function argument passed down. It is the **value returned** by the subproblem:
+
+$$\text{State Space Reduction: } (i, j, \text{streak}) \longrightarrow (i, j)$$
+
+```text
+if A[i] == B[j]:
+    dp[i][j] = 1 + dp[i-1][j-1]
+else:
+    dp[i][j] = 0
+
+```
+
+The core problem never changed—only the subproblem definition was pivoted to a Pull structure to drop the extra dimension.
+
+---
+
+## 🧠 Part 4: Core Mental Triggers & Golden Rules
+
+### The State Reduction Decision Matrix
+
+| Question | Outcome | Action |
+| --- | --- | --- |
+| **Is the variable mathematically derivable from other state parameters?** | **YES** | Drop the variable immediately. |
+| **Can the variable be represented as what the subproblem returns?** | **YES** | Reframe as Pull DP. Convert parameter into the DP stored value. |
+| **Is the variable an independent degree of freedom that cannot be returned?** | **NO** | Retain it as an explicit DP table dimension (e.g., $dp[i][j][k]$). |
+
+---
+
+### 👑 The DP Golden Rule
+
+1. **Start Natural:** Write whichever recursion model (Push or Pull) comes to mind first.
+2. **Inspect Carried Variables:** Identify extra arguments tracking accumulated history.
+3. **Reframe to Pull:** Convert carried history into the DP table's return value to drop dimensions.
+4. **Tabulate:** Build the Pull DP table using clean, ordered loops ($0 \to n$ or $n \to 0$).
