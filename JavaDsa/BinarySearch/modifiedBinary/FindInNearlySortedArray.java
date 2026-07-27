@@ -1,4 +1,4 @@
-package specialBinary;
+package modifiedBinary;
 
 public class FindInNearlySortedArray {
     static int search(int[] arr,int elem){
