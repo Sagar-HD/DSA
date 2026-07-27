@@ -1,3 +1,24 @@
 {
-    "java.debug.settings.onBuildFailureProceed": true
+    "java.debug.settings.onBuildFailureProceed": true,
+    
+    "java.project.sourcePaths": [
+        "graphs",
+        "dynamicProgramming",
+        "bitManipulation",
+        "TwoPointer",
+        "Trees",
+        "Stack",
+        "Sorting",
+        "SlidingWindow",
+        "Recursion",
+        "LinkedList",
+        "Heap",
+        "Greedy",
+        "BinarySearch",
+        "Basic Math",
+        "ArraysAndHashing",
+        "trie/implementation"
+    ],
+    "java.project.outputPath": "bin"
+
 }
