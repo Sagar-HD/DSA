@@ -1,3 +1,4 @@
+package RotatedArray;
 import java.util.*;
 
 public class MinInRotatedArray {
