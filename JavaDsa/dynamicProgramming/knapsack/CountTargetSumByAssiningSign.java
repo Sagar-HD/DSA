@@ -1,4 +1,4 @@
-package dynamicProgramming.knapsack;
+package knapsack;
 
 public class CountTargetSumByAssiningSign {
     static int getCount(int[] arr, int sum) {
