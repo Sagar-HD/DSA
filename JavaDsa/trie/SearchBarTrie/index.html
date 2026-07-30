@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Trie Search</title>
+
+    <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
+</head>
+
+<body class="bg-gray-100 min-h-screen">
+
+    <div class="max-w-xl mx-auto pt-20 px-4">
+
+        <h1 class="text-2xl font-bold text-gray-800 mb-6">
+            Trie Search
+        </h1>
+
+        <!-- Add word -->
+        <div class="flex gap-2 mb-8">
+            <input
+                id="wordInput"
+                type="text"
+                placeholder="Add word to Trie"
+                class="flex-1 border border-gray-300 rounded-lg px-4 py-2 outline-none focus:ring-2 focus:ring-blue-500"
+            >
+
+            <button
+                onclick="insertWord()"
+                class="bg-blue-600 text-white px-5 py-2 rounded-lg hover:bg-blue-700 cursor-pointer"
+            >
+                Insert
+            </button>
+        </div>
+
+
+        <!-- Search -->
+        <div class="relative">
+
+            <input
+                id="searchBar"
+                type="text"
+                placeholder="Search..."
+                oninput="getSuggestions()"
+                class="w-full border border-gray-300 rounded-lg px-4 py-3 outline-none focus:ring-2 focus:ring-blue-500"
+            >
+
+            <!-- Suggestions -->
+            <div
+                id="output"
+                class="mt-2 bg-white border border-gray-200 rounded-lg shadow-sm p-3 min-h-20"
+            >
+                Suggestions will appear here...
+            </div>
+
+        </div>
+
+    </div>
+
+    <script src="script.js"></script>
+
+</body>
+</html>
