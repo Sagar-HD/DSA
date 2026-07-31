@@ -1,4 +1,4 @@
-package dynamicProgramming.unboundedKnapsack;
+package knapsack.unboundedKnapsack;
 
 public class RodCuttingMaxProfit {
     static int getMaxProfit(int[] availableCuts,int[] profit, int length){
