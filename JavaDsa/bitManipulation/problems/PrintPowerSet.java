@@ -5,7 +5,7 @@ public class PrintPowerSet {
 
         ArrayList<ArrayList<Integer>> ans=new ArrayList<>();
         int n=arr.length;
-        int noOfSubsets=1<<n;  //2 power n
+        int noOfSubsets = 1<<n;  //2 power n
 
         // 0 to n-1 binary represnts exactly the bits of take and not take 
         //we just need to check bit and add if its one corresponsinf array element
